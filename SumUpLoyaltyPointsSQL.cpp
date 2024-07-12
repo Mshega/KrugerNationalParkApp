@@ -1,12 +1,4 @@
-#include <vcl.h>
-#pragma hdrstop
-#include "SumUpLoyaltyPointsSQL.h"
-//---------------------------------------------------------------------------
-#pragma package(smart_init)
-#pragma resource "*.dfm"
-TForm1 *Form1;
-
-void __fastcall TForm1::SumUpLoyaltyPointsSQLClick(TObject *Sender)
+void __fastcall TfrmKruger::btnTotLPincentSQLClick(TObject *Sender)
 {
     ADOUseQuery2->Close();
     ADOUseQuery2->SQL->Clear();
