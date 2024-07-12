@@ -1,0 +1,29 @@
+// ====================== For "auto-connect"! ========== 
+void __fastcall TfrmKruger::imgConnectClick(TObject *Sender)
+{
+	pnlConnect->ParentBackground = false;
+	AnsiString DBsource = GetCurrentDir();
+	DBsource.Delete(DBsource.LastDelimiter("\\"), 40);
+	DBsource.Delete(DBsource.LastDelimiter("\\"), 40);
+	AnsiString conn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
+	conn += DBsource + "\\AppData\\KrugerPark.accdb";
+	conn += ";Mode=ReadWrite;Persist Security Info=False";
+
+	DMod->ADOConn->LoginPrompt = false;
+	DMod->ADOConn->Connected = false;
+	DMod->ADOConn->ConnectionString = conn;
+	try
+	{
+		DMod->ADOConn->Connected = true;
+
+		DMod->ADOdsRangers->Open();
+		DMod->ADOdsClients->Open();
+		DMod->ADOdsCamps->Open();
+		lblConnect->Show();
+		DBGridClients->DataSource = DMod->DSClients;
+	}
+	catch(...)
+	{
+		ShowMessage("Can't connect!");
+	}
+}
