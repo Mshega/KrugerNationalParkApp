@@ -1,12 +1,4 @@
-#include <vcl.h>
-#pragma hdrstop
-#include "cmbWildcTypeChange.h"
-//---------------------------------------------------------------------------
-#pragma package(smart_init)
-#pragma resource "*.dfm"
-TForm1 *Form1;
-
-void __fastcall TForm1::cmbWildcTypeChange(TObject *Sender)
+void __fastcall TfrmKruger::cmbWildcTypeChange(TObject *Sender)
 {
     String selectedType = cmbWildcType->Text.SubString(1, 6); // Assuming the code length is 6 characters
     ADOUseQuery1->Close();
