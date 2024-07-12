@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef frmExamUnitH
-#define frmExamUnitH
+#ifndef frmUnitH
+#define frmUnitH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
