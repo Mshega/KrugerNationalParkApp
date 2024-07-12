@@ -1,12 +1,4 @@
-#include <vcl.h>
-#pragma hdrstop
-#include "SumUpLoyaltyPointsADO.h"
-//---------------------------------------------------------------------------
-#pragma package(smart_init)
-#pragma resource "*.dfm"
-TForm1 *Form1;
-
-void __fastcall TForm1::SumUpLoyaltyPointsADOClick(TObject *Sender)
+void __fastcall TfrmKruger::btnTotLPincentNOSQLClick(TObject *Sender)
 {
     ADOdsTemp->Close();
     ADOdsTemp->CommandText = "SELECT * FROM Clients WHERE WildCardNr IS NOT NULL";
