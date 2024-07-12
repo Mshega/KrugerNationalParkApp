@@ -1,30 +1,27 @@
-#include <vcl.h>
-#pragma hdrstop
-
-#include "InsertNewWildCardRecord.h"
-//---------------------------------------------------------------------------
-#pragma package(smart_init)
-#pragma resource "*.dfm"
-TForm1 *Form1;
-
 // Function to insert a new WildCard record
-void __fastcall TForm1::InsertNewWildcardClick(TObject *Sender)
+void __fastcall TfrmKruger::btnInsertClick(TObject *Sender)
 {
-    if (cmbWildCardType->Text == "" || spnAmountToPay->Value == 0) {
-        ShowMessage("Please select a Wildcard Type and Amount to pay.");
-        return;
+    // insert with SQL add current date - use an appropriate SQL-related component
+    if (cmbWCtype->ItemIndex > -1) // validate selection
+    {
+        AnsiString comboLn = cmbWCtype->Text;
+        AnsiString WCtype = comboLn.SubString(1, comboLn.Pos("-")-2); 
+        AnsiString paid = comboLn.SubString(comboLn.Pos("-")+3, 30);  //exclude'R'
+        
+        AnsiString sql = "INSERT INTO ClientWildCards(WildCardNr, LastReviewalDate, WildCardType, ";
+            sql += " AmountPaid, MaxPax) VALUES (:WC, :Ldate, :WCT, :Paid, :MaxP)"; 
+        
+        DMod->ADOCommand->CommandText = sql;
+        DMod->ADOCommand->Parameters->ParamByName("WC")->Value = edtWCnumNew->Text;
+        DMod->ADOCommand->Parameters->ParamByName("Ldate")->Value = Date(); 
+        DMod->ADOCommand->Parameters->ParamByName("WCT")->Value = WCtype; 
+        DMod->ADOCommand->Parameters->ParamByName("Paid")->Value = paid; 
+        DMod->ADOCommand->Parameters->ParamByName("MaxP")->Value = IntToStr(spedtMaxP->Value); 
+        
+        if (DMod->ADOCommand->Execute() > 0) 
+            ShowMessage("New Client Wildcard recorded!"); 
     }
-
-    String newWildCardNr = edtNewWildCardNr->Text;
-    String wildCardType = cmbWildCardType->Text.SubString(1, cmbWildCardType->Text.Pos(" - ") - 1);
-    double amountToPay = spnAmountToPay->Value;
-
-    ADOCommand->CommandText = "INSERT INTO ClientWildCards (WildCardNr, WildCardType, AmountPaid, LastReviewalDate) VALUES (:WildCardNr, :WildCardType, :AmountPaid, :LastReviewalDate)";
-    ADOCommand->Parameters->ParamByName("WildCardNr")->Value = newWildCardNr;
-    ADOCommand->Parameters->ParamByName("WildCardType")->Value = wildCardType;
-    ADOCommand->Parameters->ParamByName("AmountPaid")->Value = amountToPay;
-    ADOCommand->Parameters->ParamByName("LastReviewalDate")->Value = Date();
-    ADOCommand->Execute();
-
-    ShowMessage("New Wildcard record added successfully.");
+    else
+        MessageDlg("First select a 'Wildcard Type'!", mtWarning, TMsgDlgButtons()<<mbOK, 0); 
+        btnShowLrecord->Show(); 
 }
