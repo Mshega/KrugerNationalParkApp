@@ -1,6 +1,8 @@
 object DMod: TDMod
+
   Height = 592
   Width = 617
+
   object ADOConn: TADOConnection
     ConnectionString = 
       'Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\JeskeHJ\D' +
