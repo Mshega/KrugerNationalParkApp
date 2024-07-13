@@ -7,6 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
 TfrmKruger *frmKruger;
 //---------------------------------------------------------------------------
 __fastcall TfrmKruger::TfrmKruger(TComponent* Owner): TForm(Owner)
