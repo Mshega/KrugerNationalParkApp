@@ -1,29 +1,43 @@
 // ====================== For "auto-connect"! ========== 
 void __fastcall TfrmKruger::imgConnectClick(TObject *Sender)
 {
-	pnlConnect->ParentBackground = false;
-	AnsiString DBsource = GetCurrentDir();
-	DBsource.Delete(DBsource.LastDelimiter("\\"), 40);
-	DBsource.Delete(DBsource.LastDelimiter("\\"), 40);
-	AnsiString conn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
-	conn += DBsource + "\\AppData\\KrugerPark.accdb";
-	conn += ";Mode=ReadWrite;Persist Security Info=False";
+    // Disable parent background for connection panel
+    pnlConnect->ParentBackground = false;
 
-	DMod->ADOConn->LoginPrompt = false;
-	DMod->ADOConn->Connected = false;
-	DMod->ADOConn->ConnectionString = conn;
-	try
-	{
-		DMod->ADOConn->Connected = true;
+    // Get current directory and adjust the path for database source
+    AnsiString DBsource = GetCurrentDir();
+    DBsource.Delete(DBsource.LastDelimiter("\\"), 40); // Remove 40 characters before the last '\'
+    DBsource.Delete(DBsource.LastDelimiter("\\"), 40); // Remove another 40 characters before the last '\'
 
-		DMod->ADOdsRangers->Open();
-		DMod->ADOdsClients->Open();
-		DMod->ADOdsCamps->Open();
-		lblConnect->Show();
-		DBGridClients->DataSource = DMod->DSClients;
-	}
-	catch(...)
-	{
-		ShowMessage("Can't connect!");
-	}
+    // Construct connection string for Microsoft Access database
+    AnsiString conn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
+    conn += DBsource + "\\AppData\\KrugerPark.accdb";
+    conn += ";Mode=ReadWrite;Persist Security Info=False";
+
+    // Configure ADO connection properties
+    DMod->ADOConn->LoginPrompt = false;   // Disable login prompt
+    DMod->ADOConn->Connected = false;     // Ensure connection is closed before attempting to connect
+    DMod->ADOConn->ConnectionString = conn;  // Set the connection string
+
+    try
+    {
+        // Attempt to connect to the database
+        DMod->ADOConn->Connected = true;
+
+        // Open necessary datasets
+        DMod->ADOdsRangers->Open();
+        DMod->ADOdsClients->Open();
+        DMod->ADOdsCamps->Open();
+
+        // Show connection status label
+        lblConnect->Show();
+
+        // Set data source for client data grid
+        DBGridClients->DataSource = DMod->DSClients;
+    }
+    catch(...)
+    {
+        // Handle connection errors
+        ShowMessage("Can't connect!");
+    }
 }
