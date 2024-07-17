@@ -13,8 +13,7 @@ void __fastcall TfrmKruger::btnInsertClick(TObject *Sender)
         AnsiString sql = "INSERT INTO ClientWildCards(WildCardNr, LastReviewalDate, WildCardType, ";
         sql += "AmountPaid, MaxPax) VALUES (:WC, :Ldate, :WCT, :Paid, :MaxP)";
         
-        // Set the command text of ADOCommand to the SQL query
-        DMod->ADOCommand->CommandText = sql;
+        DMod->ADOCommand->CommandText = sql; // Set the command text of ADOCommand to the SQL query
         
         // Bind parameters to the query
         DMod->ADOCommand->Parameters->ParamByName("WC")->Value = edtWCnumNew->Text;
@@ -26,14 +25,12 @@ void __fastcall TfrmKruger::btnInsertClick(TObject *Sender)
         // Execute the SQL command and check if it was successful
         if (DMod->ADOCommand->Execute() > 0) 
         {
-            // Show success message if the insertion was successful
-            ShowMessage("New Client Wildcard recorded!");
+            ShowMessage("New Client Wildcard recorded!"); // Show success message if the insertion was successful
         }
     }
     else
     {
-        // Show a warning message if no WildCard type is selected
-        MessageDlg("First select a 'Wildcard Type'!", mtWarning, TMsgDlgButtons() << mbOK, 0);
+        MessageDlg("First select a 'Wildcard Type'!", mtWarning, TMsgDlgButtons() << mbOK, 0); // Show a warning message if no WildCard type is selected
     }
     
     // Always show the 'Show' button after attempting to insert
